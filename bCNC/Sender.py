@@ -49,7 +49,7 @@ FEEDPAT   = re.compile(r"^(.*)[fF](\d+\.?\d+)(.*)$")
 CONNECTED     = "Connected"
 NOT_CONNECTED = "Not connected"
 
-STATECOLORDEF = "LightYellow" #Default color for unknown types?
+STATECOLORDEF = "LightYellow"	 # Default color for unknown types?
 STATECOLOR = {
 		"Idle"		: "Yellow",
 		"Run"		: "LightGreen",
@@ -536,7 +536,7 @@ class Sender:
 	#----------------------------------------------------------------------
 	def sendGCode(self, cmd):
 		if self.serial and not self.running:
-			if isinstance(cmd,tuple):
+			if isinstance(cmd, tuple):
 				self.queue.put(cmd)
 			else:
 				self.queue.put(cmd+"\n")
@@ -544,7 +544,7 @@ class Sender:
 	#----------------------------------------------------------------------
 	def sendHex(self, hexcode):
 		if self.serial is None: return
-		self.serial_write(chr(int(hexcode,16)))
+		self.serial_write(chr(int(hexcode, 16)))
 		self.serial.flush()
 
 	#----------------------------------------------------------------------

@@ -23,6 +23,7 @@ import socket
 import traceback
 from datetime import datetime
 
+# noinspection PyBroadException
 try:
     import serial
 except:
@@ -34,7 +35,7 @@ try:
     from Tkinter import *
     import tkMessageBox
 except ImportError:
-    import tkinter
+    import tkinter as Tkinter
     from queue import *
     from tkinter import *
     import tkinter.messagebox as tkMessageBox
@@ -190,7 +191,7 @@ class Application(Toplevel, Sender):
         # XXX FIXME do I need the self.canvas?
         self.canvas = self.canvasFrame.canvas
 
-        # fist create Pages
+        # first create Pages
         self.pages = {}
         for cls in (ControlPage,
                     EditorPage,
@@ -214,7 +215,6 @@ class Application(Toplevel, Sender):
                 last = n[-1]
                 if (n == "abcDRO" or n == "abcControl") and CNC.enable6axisopt == False:
                     sys.stdout.write("Not Loading 6 axis displays\n")
-
 
                 else:
                     try:
