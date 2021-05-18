@@ -126,6 +126,9 @@ class Sender:
 		self._onStart    = ""
 		self._onStop     = ""
 
+		self.__device = None
+		self.__baudrate = None
+
 
 	#----------------------------------------------------------------------
 	def controllerLoad(self):
@@ -464,10 +467,16 @@ class Sender:
 
 		#if sys.version_info[0] == 2:
 		#	ret = self.serial.write(str(data))
-		if isinstance(data, bytes):
-			ret = self.serial.write(data)
-		else:
-			ret = self.serial.write(data.encode())
+		try:
+			if isinstance(data, bytes):
+				ret = self.serial.write(data)
+			else:
+				ret = self.serial.write(data.encode())
+		except serial.writeTimeoutError as ex:
+			print(ex)
+			self.close()
+			self.open(self.__device, self.__baudrate)
+			self.serial_write(data)
 
 		return ret
 
@@ -475,6 +484,9 @@ class Sender:
 	# Open serial port
 	#----------------------------------------------------------------------
 	def open(self, device, baudrate):
+		self.__device = device
+		self.__baudrate = baudrate
+
 		#self.serial = serial.Serial(
 		self.serial = serial.serial_for_url(
 						device.replace('\\', '\\\\'), #Escape for windows
